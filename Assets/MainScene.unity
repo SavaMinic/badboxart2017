@@ -151,6 +151,27 @@ MonoBehaviour:
   lookAtPosition: {x: 0, y: 0, z: -9}
   trashCanPosition: {x: -2.5, y: 0, z: -6.5}
   mouthPosition: {x: 2.5, y: 0, z: -6.5}
+  foodColors:
+  - type: 0
+    color: {r: 1, g: 0, b: 0, a: 1}
+  - type: 1
+    color: {r: 1, g: 0.51724136, b: 0, a: 1}
+  - type: 2
+    color: {r: 0.45588237, g: 0.31125766, b: 0, a: 1}
+  - type: 3
+    color: {r: 0, g: 0.6689658, b: 1, a: 1}
+  - type: 4
+    color: {r: 1, g: 0.7425963, b: 0.60294116, a: 1}
+  - type: 100
+    color: {r: 0.6975151, g: 0, b: 0.77205884, a: 1}
+  - type: 101
+    color: {r: 0, g: 0.8088235, b: 0.005578241, a: 1}
+  - type: 102
+    color: {r: 0.66379315, g: 0.8088235, b: 0, a: 1}
+  - type: 103
+    color: {r: 0, g: 0.33823532, b: 0.044320453, a: 1}
+  - type: 104
+    color: {r: 1, g: 0.9724138, b: 0, a: 1}
 --- !u!114 &252953140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,7 +183,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d052adf81496b4c069205b81d1f2edac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftKey: 0
 --- !u!1 &505348622
 GameObject:
   m_ObjectHideFlags: 0

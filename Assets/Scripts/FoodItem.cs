@@ -1,8 +1,35 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
+using System;
 
 public class FoodItem : MonoBehaviour
 {
+
+	public enum FoodType
+	{
+		// Fast food
+		Burger = 0,
+		Pizza,
+		Hotdog,
+		Milkshake,
+		FrenchFries,
+
+		// Healthy food
+		Cucumber = 100,
+		Apple,
+		Banana,
+		Broccoli,
+		Lemon,
+	}
+
+	public readonly static List<FoodType> FastFood = new List<FoodType>();
+	public readonly static List<FoodType> HealthyFood = new List<FoodType>();
+	static FoodItem()
+	{
+		var list = new List<FoodType>((FoodType[])Enum.GetValues(typeof(FoodType)));
+		FastFood.AddRange(list.GetRange(0, 5));
+		HealthyFood.AddRange(list.GetRange(5, 5));
+	}
 
 	#region Editor fields
 
@@ -31,16 +58,25 @@ public class FoodItem : MonoBehaviour
 
 	#endregion
 
+	#region Properties
+
+	public FoodType Type { get; private set; }
+
+	#endregion
+
 	void Awake()
 	{
 		myRenderer = GetComponent<Renderer>();
 	}
 
-	public void Init(int initialOrder, Vector3 lookAt)
+	public void Init(int initialOrder, Vector3 lookAt, FoodType foodType)
 	{
 		order = initialOrder;
-		myRenderer.material.color = Random.ColorHSV();
 		lookAtPosition = lookAt;
+		Type = foodType;
+
+		// todo: change to sprite
+		myRenderer.material.color = FoodManager.I.foodColors.Find(fc => fc.type == Type).color;
 	}
 
 	public void MoveDown()

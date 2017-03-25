@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public static class Util
 {
@@ -18,5 +18,10 @@ public static class Util
 			Between(start.y, end.y, count, order),
 			Between(start.z, end.z, count, order)
 		);
+	} 
+
+	public static T GetRandom<T>(this List<T> list)
+	{
+		return list[Random.Range(0, list.Count)];
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class FoodManager : MonoBehaviour
 {
@@ -46,9 +47,23 @@ public class FoodManager : MonoBehaviour
 
 	#endregion
 
+	#region Just debug
+
+	[Serializable]
+	public class FoodColor
+	{
+		public FoodItem.FoodType type;
+		public Color color;
+	}
+
+	public List<FoodColor> foodColors;
+
+	#endregion
+
 	#region Fields
 
 	private List<FoodItem> activeFoodItems = new List<FoodItem>();
+	private List<FoodItem.FoodType> possibleFoodTypes = new List<FoodItem.FoodType>();
 
 	#endregion
 
@@ -62,7 +77,7 @@ public class FoodManager : MonoBehaviour
 		var foodItem = (Instantiate(foodItemPrefab) as GameObject).GetComponent<FoodItem>();
 
 		var order = activeFoodItems.Count;
-		foodItem.Init(order, lookAtPosition);
+		foodItem.Init(order, lookAtPosition, possibleFoodTypes.GetRandom());
 		foodItem.transform.parent = transform;
 		foodItem.transform.position = GetPosition(order);
 		foodItem.transform.LookAt(lookAtPosition);
@@ -70,7 +85,7 @@ public class FoodManager : MonoBehaviour
 		activeFoodItems.Add(foodItem);
 	}
 
-	public void ClearOldFoodItems()
+	private void ClearOldFoodItems()
 	{
 		for (int i = 0; i < activeFoodItems.Count; i++)
 		{
@@ -79,9 +94,19 @@ public class FoodManager : MonoBehaviour
 		activeFoodItems.Clear();
 	}
 
+	private void ClearPossibleFoodTypes()
+	{
+		possibleFoodTypes.Clear();
+		possibleFoodTypes.Add(FoodItem.FastFood.GetRandom());
+		possibleFoodTypes.Add(FoodItem.FastFood.GetRandom());
+		possibleFoodTypes.Add(FoodItem.HealthyFood.GetRandom());
+		possibleFoodTypes.Add(FoodItem.HealthyFood.GetRandom());
+	}
+
 	public void StartNewGame()
 	{
 		ClearOldFoodItems();
+		ClearPossibleFoodTypes();
 		for (int i = 0; i < count; i++)
 		{
 			CreateFood();
