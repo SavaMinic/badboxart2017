@@ -58,6 +58,11 @@ public class FoodManager : MonoBehaviour
 
 	public List<FoodColor> foodColors;
 
+	public Color GetFoodColor(FoodItem.FoodType type)
+	{
+		return foodColors.Find(fc => fc.type == type).color;
+	}
+
 	#endregion
 
 	#region Fields
@@ -72,7 +77,8 @@ public class FoodManager : MonoBehaviour
 		return Util.Between(startPosition, endPosition, count, order);
 	}
 
-	public void CreateFood()
+
+	private void CreateFood()
 	{
 		var foodItem = (Instantiate(foodItemPrefab) as GameObject).GetComponent<FoodItem>();
 
@@ -94,13 +100,29 @@ public class FoodManager : MonoBehaviour
 		activeFoodItems.Clear();
 	}
 
+	private void AddRandomFood(bool isHealthyFood)
+	{
+		FoodItem.FoodType type;
+		do
+		{
+			type = isHealthyFood ? FoodItem.HealthyFood.GetRandom() : FoodItem.FastFood.GetRandom();
+		}
+		while (possibleFoodTypes.Contains(type));
+		possibleFoodTypes.Add(type);
+	}
+
 	private void ClearPossibleFoodTypes()
 	{
 		possibleFoodTypes.Clear();
-		possibleFoodTypes.Add(FoodItem.FastFood.GetRandom());
-		possibleFoodTypes.Add(FoodItem.FastFood.GetRandom());
-		possibleFoodTypes.Add(FoodItem.HealthyFood.GetRandom());
-		possibleFoodTypes.Add(FoodItem.HealthyFood.GetRandom());
+		AddRandomFood(true); AddRandomFood(true);
+		AddRandomFood(false); AddRandomFood(false);
+
+		FoodMarkers.I.Reset();
+		for (int i = 0; i < possibleFoodTypes.Count; i++)
+		{
+			var food = possibleFoodTypes[i];
+			FoodMarkers.I.ActivateFoodMarker(GetFoodColor(food), food.IsHealthyFood());
+		}
 	}
 
 	public void StartNewGame()

@@ -76,7 +76,7 @@ public class FoodItem : MonoBehaviour
 		Type = foodType;
 
 		// todo: change to sprite
-		myRenderer.material.color = FoodManager.I.foodColors.Find(fc => fc.type == Type).color;
+		myRenderer.material.color = FoodManager.I.GetFoodColor(Type);
 	}
 
 	public void MoveDown()

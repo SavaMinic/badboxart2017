@@ -24,4 +24,14 @@ public static class Util
 	{
 		return list[Random.Range(0, list.Count)];
 	}
+
+	public static bool IsHealthyFood(this FoodItem.FoodType type)
+	{
+		return type >= FoodItem.FoodType.Cucumber;
+	}
+
+	public static bool IsFastFood(this FoodItem.FoodType type)
+	{
+		return !type.IsHealthyFood();
+	}
 }
