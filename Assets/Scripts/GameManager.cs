@@ -24,6 +24,11 @@ public class GameManager : MonoBehaviour
 
 	void Start()
 	{
+		StartNewGame();
+	}
+
+	public void StartNewGame()
+	{
 		FoodManager.I.StartNewGame();
 	}
 }

@@ -57,9 +57,18 @@ public class FoodManager : MonoBehaviour
 		activeFoodItems.Add(foodItem);
 	}
 
+	public void ClearOldFoodItems()
+	{
+		for (int i = 0; i < activeFoodItems.Count; i++)
+		{
+			GameObject.Destroy(activeFoodItems[i].gameObject);
+		}
+		activeFoodItems.Clear();
+	}
+
 	public void StartNewGame()
 	{
-		activeFoodItems.Clear();
+		ClearOldFoodItems();
 		for (int i = 0; i < count; i++)
 		{
 			CreateFood();
