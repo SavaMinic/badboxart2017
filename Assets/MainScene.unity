@@ -122,6 +122,7 @@ MonoBehaviour:
   txtScore: {fileID: 1045682014}
   txtLevel: {fileID: 1321935157}
   maxLevel: 5
+  mistakeDelayDuration: 1
 --- !u!4 &252953138
 Transform:
   m_ObjectHideFlags: 0

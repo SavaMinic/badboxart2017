@@ -129,7 +129,6 @@ public class FoodItem : MonoBehaviour
 			endPosition = endingPosition;
 			return;
 		}
-		transform.position += Vector3.back * 0.1f;
 		movingAnimation = Go.to(transform, moveToEndDuration, new GoTweenConfig()
 			.vector3Prop("position", endingPosition)
 			.setEaseType(moveToEndEase)

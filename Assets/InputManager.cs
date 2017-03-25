@@ -6,13 +6,22 @@ public class InputManager : MonoBehaviour
 
 	void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.JoystickButton7))
+		if (GameManager.I.IsPlaying)
 		{
-			FoodManager.I.MoveToTrash();
-		}
-		else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)|| Input.GetKeyDown(KeyCode.JoystickButton8))
-		{
-			FoodManager.I.MoveToMouth();
+			if (Input.GetKeyDown(KeyCode.A)
+				|| Input.GetKeyDown(KeyCode.LeftArrow)
+				|| Input.GetKeyDown(KeyCode.JoystickButton7)
+			)
+			{
+				FoodManager.I.MoveToTrash();
+			}
+			else if (Input.GetKeyDown(KeyCode.D)
+				|| Input.GetKeyDown(KeyCode.RightArrow)
+				|| Input.GetKeyDown(KeyCode.JoystickButton8)
+			)
+			{
+				FoodManager.I.MoveToMouth();
+			}
 		}
 	}
 }
