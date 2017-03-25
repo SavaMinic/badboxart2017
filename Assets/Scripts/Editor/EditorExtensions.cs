@@ -12,4 +12,12 @@ public class EditorExtensions
 			return;
 		GameManager.I.StartNewGame();
 	}
+
+	[MenuItem("BAD BOX ART/Level up")]
+	private static void LevelUp()
+	{
+		if (!Application.isPlaying)
+			return;
+		GameManager.I.LevelUp();
+	}
 }

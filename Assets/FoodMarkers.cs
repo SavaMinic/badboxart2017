@@ -41,6 +41,16 @@ public class FoodMarkers : MonoBehaviour
 		}
 	}
 
+	public void RefreshFoodMarkers(List<FoodItem.FoodType> possibleFoodTypes)
+	{
+		Reset();
+		for (int i = 0; i < possibleFoodTypes.Count; i++)
+		{
+			var food = possibleFoodTypes[i];
+			ActivateFoodMarker(FoodManager.I.GetFoodColor(food), food.IsHealthyFood());
+		}
+	}
+
 	public void ActivateFoodMarker(Color color, bool isHealthy)
 	{
 		var food = (isHealthy ? healthyFood : fastFood).Find(f => !f.enabled);

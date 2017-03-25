@@ -114,15 +114,31 @@ public class FoodManager : MonoBehaviour
 	private void ClearPossibleFoodTypes()
 	{
 		possibleFoodTypes.Clear();
-		AddRandomFood(true); AddRandomFood(true);
-		AddRandomFood(false); AddRandomFood(false);
+		AddFoodDependingOnLevel();
+	}
 
-		FoodMarkers.I.Reset();
-		for (int i = 0; i < possibleFoodTypes.Count; i++)
+	public void AddFoodDependingOnLevel()
+	{
+		switch (GameManager.I.Level)
 		{
-			var food = possibleFoodTypes[i];
-			FoodMarkers.I.ActivateFoodMarker(GetFoodColor(food), food.IsHealthyFood());
+			case 0:
+				AddRandomFood(true);
+				AddRandomFood(false);
+				break;
+			case 1:
+				AddRandomFood(false);
+				break;
+			case 2:
+				AddRandomFood(true);
+				break;
+			case 3:
+				AddRandomFood(false);
+				break;
+			case 4:
+				AddRandomFood(true);
+				break;
 		}
+		FoodMarkers.I.RefreshFoodMarkers(possibleFoodTypes);
 	}
 
 	public void StartNewGame()

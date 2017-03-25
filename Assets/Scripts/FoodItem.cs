@@ -130,4 +130,12 @@ public class FoodItem : MonoBehaviour
 		);
 	}
 
+	void OnDestroy()
+	{
+		if (movingAnimation != null)
+		{
+			movingAnimation.destroy();
+		}
+	}
+
 }
