@@ -121,6 +121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   txtScore: {fileID: 1045682014}
   txtLevel: {fileID: 1321935157}
+  maxLevel: 5
 --- !u!4 &252953138
 Transform:
   m_ObjectHideFlags: 0
@@ -151,8 +152,8 @@ MonoBehaviour:
   endPosition: {x: 0, y: 7, z: 7}
   count: 10
   lookAtPosition: {x: 0, y: 0, z: -9}
-  trashCanPosition: {x: -2.5, y: 0, z: -6.5}
-  mouthPosition: {x: 2.5, y: 0, z: -6.5}
+  trashCanPosition: {x: -2.5, y: 0, z: -7.2}
+  mouthPosition: {x: 2.5, y: 0, z: -7.2}
   foodColors:
   - type: 0
     color: {r: 1, g: 0, b: 0, a: 1}

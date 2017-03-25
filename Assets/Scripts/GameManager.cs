@@ -56,17 +56,19 @@ public class GameManager : MonoBehaviour
 		StartNewGame();
 	}
 
+	#region Public API
+
 	public void StartNewGame()
 	{
-		Score = 0; txtLevel.text = "SCORE: 0";
-		Level = 0; txtLevel.text = "LEVEL 1";
+		Score = 0; txtScore.text = "SCORE: 0";
+		Level = 1; txtLevel.text = "LEVEL 1";
 		State = GameState.Playing;
 		FoodManager.I.StartNewGame();
 	}
 
-	public void IncreaseScore(int points)
+	public void IncreaseScore()
 	{
-		Score += points;
+		Score += Level;
 		txtScore.text = "SCORE: " + Score;
 	}
 
@@ -75,7 +77,14 @@ public class GameManager : MonoBehaviour
 		if (Level == maxLevel)
 			return;
 		Level++;
-		txtLevel.text = "LEVEL " + (Level == maxLevel ? "MAX!" : (Level + 1).ToString());
+		txtLevel.text = "LEVEL " + (Level == maxLevel ? "MAX!" : Level.ToString());
 		FoodManager.I.AddFoodDependingOnLevel();
 	}
+
+	public void SignalMistake()
+	{
+
+	}
+
+	#endregion
 }

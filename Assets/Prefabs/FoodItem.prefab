@@ -52,8 +52,8 @@ MeshRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
   m_Materials:
   - {fileID: 2100000, guid: a87df983b3c9e40e78fe125e8cf71a6a, type: 2}
   m_SubsetIndices: 
@@ -90,6 +90,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveDownDuration: 0.3
-  moveDownEase: 0
+  moveDownEase: 27
   moveToEndDuration: 0.25
   moveToEndEase: 2

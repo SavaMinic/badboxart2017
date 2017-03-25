@@ -51,10 +51,11 @@ public class FoodItem : MonoBehaviour
 
 	private Renderer myRenderer;
 	private int order;
-	private GoTween movingAnimation;
 	private Vector3 lookAtPosition;
 
 	private Vector3 endPosition;
+	private GoTween movingAnimation;
+	private GoTween colorAnimation;
 
 	#endregion
 
@@ -68,6 +69,20 @@ public class FoodItem : MonoBehaviour
 	{
 		myRenderer = GetComponent<Renderer>();
 	}
+
+	void OnDestroy()
+	{
+		if (movingAnimation != null)
+		{
+			movingAnimation.destroy();
+		}
+		if (colorAnimation != null)
+		{
+			colorAnimation.destroy();
+		}
+	}
+
+	#region Public API
 
 	public void Init(int initialOrder, Vector3 lookAt, FoodType foodType)
 	{
@@ -114,13 +129,10 @@ public class FoodItem : MonoBehaviour
 			endPosition = endingPosition;
 			return;
 		}
+		transform.position += Vector3.back * 0.1f;
 		movingAnimation = Go.to(transform, moveToEndDuration, new GoTweenConfig()
 			.vector3Prop("position", endingPosition)
 			.setEaseType(moveToEndEase)
-			.onUpdate(t =>
-			{
-				
-			})
 			.onComplete(t =>
 			{
 				movingAnimation = null;
@@ -128,14 +140,14 @@ public class FoodItem : MonoBehaviour
 				// TODO: call callback, open mouth and staff
 			})
 		);
+		var endColor = myRenderer.material.color;
+		endColor.a = 0f;
+		colorAnimation = Go.to(myRenderer.material, moveToEndDuration, new GoTweenConfig()
+			.colorProp("color", endColor)
+			.setEaseType(GoEaseType.Linear)
+		);
 	}
 
-	void OnDestroy()
-	{
-		if (movingAnimation != null)
-		{
-			movingAnimation.destroy();
-		}
-	}
+	#endregion
 
 }

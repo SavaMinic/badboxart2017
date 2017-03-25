@@ -72,11 +72,82 @@ public class FoodManager : MonoBehaviour
 
 	#endregion
 
+
+
+	#region Public API
+
 	public Vector3 GetPosition(int order)
 	{
 		return Util.Between(startPosition, endPosition, count, order);
 	}
 
+	public void AddFoodDependingOnLevel()
+	{
+		switch (GameManager.I.Level)
+		{
+			case 1:
+				AddRandomFood(true);
+				AddRandomFood(false);
+				break;
+			case 2:
+				AddRandomFood(false);
+				break;
+			case 3:
+				AddRandomFood(true);
+				break;
+			case 4:
+				AddRandomFood(false);
+				break;
+			case 5:
+				AddRandomFood(true);
+				break;
+		}
+		FoodMarkers.I.RefreshFoodMarkers(possibleFoodTypes);
+	}
+
+	public void StartNewGame()
+	{
+		ClearOldFoodItems();
+		ClearPossibleFoodTypes();
+		for (int i = 0; i < count; i++)
+		{
+			CreateFood();
+		}
+	}
+
+	public void MoveToTrash()
+	{
+		Move(trashCanPosition, true);
+	}
+
+	public void MoveToMouth()
+	{
+		Move(mouthPosition, false);
+	}
+
+	#endregion
+
+	#region Private methods
+
+	private void Move(Vector3 endPosition, bool requiresHealthyFood)
+	{
+		var activeFood = activeFoodItems[0];
+		activeFood.MoveToEnd(endPosition);
+		activeFoodItems.RemoveAt(0);
+		for (int i = 0; i < activeFoodItems.Count; i++)
+		{
+			activeFoodItems[i].MoveDown();
+		}
+		CreateFood();
+		if (activeFood.Type.IsHealthyFood() == requiresHealthyFood)
+		{
+			GameManager.I.IncreaseScore();
+		}
+		else
+		{
+			GameManager.I.SignalMistake();
+		}
+	}
 
 	private void CreateFood()
 	{
@@ -117,59 +188,6 @@ public class FoodManager : MonoBehaviour
 		AddFoodDependingOnLevel();
 	}
 
-	public void AddFoodDependingOnLevel()
-	{
-		switch (GameManager.I.Level)
-		{
-			case 0:
-				AddRandomFood(true);
-				AddRandomFood(false);
-				break;
-			case 1:
-				AddRandomFood(false);
-				break;
-			case 2:
-				AddRandomFood(true);
-				break;
-			case 3:
-				AddRandomFood(false);
-				break;
-			case 4:
-				AddRandomFood(true);
-				break;
-		}
-		FoodMarkers.I.RefreshFoodMarkers(possibleFoodTypes);
-	}
-
-	public void StartNewGame()
-	{
-		ClearOldFoodItems();
-		ClearPossibleFoodTypes();
-		for (int i = 0; i < count; i++)
-		{
-			CreateFood();
-		}
-	}
-
-	public void MoveLeft()
-	{
-		Move(trashCanPosition);
-	}
-
-	public void MoveRight()
-	{
-		Move(mouthPosition);
-	}
-
-	private void Move(Vector3 endPosition)
-	{
-		activeFoodItems[0].MoveToEnd(endPosition);
-		activeFoodItems.RemoveAt(0);
-		for (int i = 0; i < activeFoodItems.Count; i++)
-		{
-			activeFoodItems[i].MoveDown();
-		}
-		CreateFood();
-	}
+	#endregion
 
 }
