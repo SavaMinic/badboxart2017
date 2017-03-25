@@ -22,6 +22,18 @@ public class GameManager : MonoBehaviour
 
 	#endregion
 
+	public enum GameState
+	{
+		Intro = 0,
+		Menu,
+		Playing,
+		Paused,
+		Delayed,
+		EndGame
+	}
+
+	public GameState State { get; private set; }
+
 	void Start()
 	{
 		StartNewGame();
@@ -29,6 +41,7 @@ public class GameManager : MonoBehaviour
 
 	public void StartNewGame()
 	{
+		State = GameState.Playing;
 		FoodManager.I.StartNewGame();
 	}
 }

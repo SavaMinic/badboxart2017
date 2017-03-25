@@ -38,6 +38,12 @@ public class FoodManager : MonoBehaviour
 	[SerializeField]
 	private Vector3 lookAtPosition;
 
+	[SerializeField]
+	private Vector3 trashCanPosition;
+
+	[SerializeField]
+	private Vector3 mouthPosition;
+
 	#endregion
 
 	#region Fields
@@ -46,12 +52,19 @@ public class FoodManager : MonoBehaviour
 
 	#endregion
 
+	public Vector3 GetPosition(int order)
+	{
+		return Util.Between(startPosition, endPosition, count, order);
+	}
+
 	public void CreateFood()
 	{
 		var foodItem = (Instantiate(foodItemPrefab) as GameObject).GetComponent<FoodItem>();
 
+		var order = activeFoodItems.Count;
+		foodItem.Init(order, lookAtPosition);
 		foodItem.transform.parent = transform;
-		foodItem.transform.position = Util.Between(startPosition, endPosition, count, activeFoodItems.Count);
+		foodItem.transform.position = GetPosition(order);
 		foodItem.transform.LookAt(lookAtPosition);
 
 		activeFoodItems.Add(foodItem);
@@ -73,6 +86,27 @@ public class FoodManager : MonoBehaviour
 		{
 			CreateFood();
 		}
+	}
+
+	public void MoveLeft()
+	{
+		Move(trashCanPosition);
+	}
+
+	public void MoveRight()
+	{
+		Move(mouthPosition);
+	}
+
+	private void Move(Vector3 endPosition)
+	{
+		activeFoodItems[0].MoveToEnd(endPosition);
+		activeFoodItems.RemoveAt(0);
+		for (int i = 0; i < activeFoodItems.Count; i++)
+		{
+			activeFoodItems[i].MoveDown();
+		}
+		CreateFood();
 	}
 
 }

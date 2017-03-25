@@ -100,6 +100,7 @@ GameObject:
   - 4: {fileID: 252953138}
   - 114: {fileID: 252953137}
   - 114: {fileID: 252953139}
+  - 114: {fileID: 252953140}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -148,6 +149,20 @@ MonoBehaviour:
   endPosition: {x: 0, y: 7, z: 7}
   count: 10
   lookAtPosition: {x: 0, y: 0, z: -9}
+  trashCanPosition: {x: -2.5, y: 0, z: -6.5}
+  mouthPosition: {x: 2.5, y: 0, z: -6.5}
+--- !u!114 &252953140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 252953136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d052adf81496b4c069205b81d1f2edac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftKey: 0
 --- !u!1 &505348622
 GameObject:
   m_ObjectHideFlags: 0
