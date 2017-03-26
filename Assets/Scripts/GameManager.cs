@@ -37,6 +37,9 @@ public class GameManager : MonoBehaviour
 	private float mistakeDelayDuration = 0.2f;
 
 	[SerializeField]
+	private Color mistakeColor = Color.red;
+
+	[SerializeField]
 	private Image imgProgress;
 
 	[SerializeField]
@@ -180,7 +183,7 @@ public class GameManager : MonoBehaviour
 			backgroundAnimation.destroy();
 		}
 		backgroundAnimation = Go.to(Camera.main, mistakeDelayDuration / 2f, new GoTweenConfig()
-			.colorProp("backgroundColor", Color.red)
+			.colorProp("backgroundColor", mistakeColor)
 			.setIterations(2, GoLoopType.PingPong)
 		);
 	}

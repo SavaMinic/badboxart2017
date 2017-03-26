@@ -197,6 +197,7 @@ MonoBehaviour:
   txtLevel: {fileID: 1321935157}
   maxLevel: 5
   mistakeDelayDuration: 0.5
+  mistakeColor: {r: 0.21568628, g: 0.36192036, b: 0.6784314, a: 1}
   imgProgress: {fileID: 1702291572}
   decaySpeed: 0.1
   increasePerHit: 0.05
@@ -439,7 +440,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
+  m_BackGroundColor: {r: 0.21568628, g: 0.57254905, b: 0.6784314, a: 1}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
