@@ -63,6 +63,12 @@ public class GameManager : MonoBehaviour
 	[SerializeField]
 	private GameObject driveInObject;
 
+	[SerializeField]
+	private Text txtLevelUp;
+
+	[SerializeField]
+	private float levelUpMoveInDuration = 0.9f;
+
 	#endregion
 
 	public int Score { get; private set; }
@@ -103,7 +109,6 @@ public class GameManager : MonoBehaviour
 		// just a placeholder
 		FoodMarkers.I.Reset();
 	}
-
 
 	void OnDestroy()
 	{
@@ -184,6 +189,31 @@ public class GameManager : MonoBehaviour
 		Progress = 0.5f;
 		txtLevel.text = "LEVEL " + (Level == maxLevel ? "MAX!" : Level.ToString());
 		FoodManager.I.AddFoodDependingOnLevel();
+
+		// activate level up
+		StartCoroutine(LevelUpAnimation());
+	}
+
+	private IEnumerator LevelUpAnimation()
+	{
+		txtLevelUp.rectTransform.localScale = Vector3.one * 0.3f;
+
+		yield return new WaitForEndOfFrame();
+
+		Go.to(txtLevelUp.rectTransform, levelUpMoveInDuration, new GoTweenConfig()
+			.vector3Prop("localScale", Vector3.one)
+			.setEaseType(GoEaseType.BackOut)
+			.setIterations(2, GoLoopType.PingPong)
+		);
+
+		// fade in and out
+		var fullColor = txtLevelUp.color;
+		fullColor.a = 1f;
+		Go.to(txtLevelUp, levelUpMoveInDuration, new GoTweenConfig()
+			.colorProp("color", fullColor)
+			.setEaseType(GoEaseType.Linear)
+			.setIterations(2, GoLoopType.PingPong)
+		);
 	}
 
 	public void SignalMistake()
