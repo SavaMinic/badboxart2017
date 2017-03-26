@@ -202,7 +202,7 @@ MonoBehaviour:
   imgProgress: {fileID: 1702291572}
   decaySpeed: 0.15
   increasePerHit: 0.05
-  decreasePerMistake: 0.15
+  decreasePerMistake: 0.11
   menuPanel: {fileID: 1080771123}
   progressPanel: {fileID: 1568320272}
   txtMenuTitle: {fileID: 2101861243}
@@ -422,7 +422,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 48148b79fe9d243e888366bb8dc870ca, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
