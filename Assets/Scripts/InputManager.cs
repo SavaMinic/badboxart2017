@@ -22,6 +22,10 @@ public class InputManager : MonoBehaviour
 			{
 				FoodManager.I.MoveToMouth();
 			}
+			else if (Input.GetKeyDown(KeyCode.Escape))
+			{
+				GameManager.I.EndGame();
+			}
 		}
 		else if (GameManager.I.State == GameManager.GameState.Intro && Input.anyKeyDown)
 		{

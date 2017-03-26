@@ -149,8 +149,7 @@ public class GameManager : MonoBehaviour
 		FoodMarkers.I.Reset();
 		SetMenuActive(true);
 
-		introCouroutine = IntroAnimation();
-		StartCoroutine(introCouroutine);
+		PlayIntroAgain();
 	}
 
 	void OnDestroy()
@@ -206,6 +205,8 @@ public class GameManager : MonoBehaviour
 
 	private IEnumerator IntroAnimation()
 	{
+		introPanel.color = Color.black;
+		introPanel.gameObject.SetActive(true);
 		State = GameState.Intro;
 
 		yield return new WaitForSeconds(introDelay);
@@ -221,8 +222,9 @@ public class GameManager : MonoBehaviour
 
 		Go.to(imgScreenshot, introFadeInDuration, new GoTweenConfig().colorProp("color", Color.white));
 
-		yield return new WaitForSeconds(introElementdsDelay * 3);
+		yield return new WaitForSeconds(introElementdsDelay * 3f);
 
+		txtIntroPressToPlay.enabled = true;
 		Go.to(txtIntroPressToPlay, introFadeInDuration / 4f, new GoTweenConfig().colorProp("color", Color.white));
 
 		yield return new WaitForSeconds(introFadeInDuration / 3f);
@@ -251,6 +253,28 @@ public class GameManager : MonoBehaviour
 
 		introPanel.gameObject.SetActive(false);
 		State = GameState.Menu;
+	}
+
+	private IEnumerator LevelUpAnimation()
+	{
+		txtLevelUp.rectTransform.localScale = Vector3.one * 0.3f;
+
+		yield return new WaitForEndOfFrame();
+
+		Go.to(txtLevelUp.rectTransform, levelUpMoveInDuration, new GoTweenConfig()
+			.vector3Prop("localScale", Vector3.one)
+			.setEaseType(GoEaseType.BackOut)
+			.setIterations(2, GoLoopType.PingPong)
+		);
+
+		// fade in and out
+		var fullColor = txtLevelUp.color;
+		fullColor.a = 1f;
+		Go.to(txtLevelUp, levelUpMoveInDuration, new GoTweenConfig()
+			.colorProp("color", fullColor)
+			.setEaseType(GoEaseType.Linear)
+			.setIterations(2, GoLoopType.PingPong)
+		);
 	}
 
 	#region Public API
@@ -298,28 +322,6 @@ public class GameManager : MonoBehaviour
 		StartCoroutine(LevelUpAnimation());
 	}
 
-	private IEnumerator LevelUpAnimation()
-	{
-		txtLevelUp.rectTransform.localScale = Vector3.one * 0.3f;
-
-		yield return new WaitForEndOfFrame();
-
-		Go.to(txtLevelUp.rectTransform, levelUpMoveInDuration, new GoTweenConfig()
-			.vector3Prop("localScale", Vector3.one)
-			.setEaseType(GoEaseType.BackOut)
-			.setIterations(2, GoLoopType.PingPong)
-		);
-
-		// fade in and out
-		var fullColor = txtLevelUp.color;
-		fullColor.a = 1f;
-		Go.to(txtLevelUp, levelUpMoveInDuration, new GoTweenConfig()
-			.colorProp("color", fullColor)
-			.setEaseType(GoEaseType.Linear)
-			.setIterations(2, GoLoopType.PingPong)
-		);
-	}
-
 	public void SignalMistake()
 	{
 		Progress -= decreasePerMistake;
@@ -333,6 +335,12 @@ public class GameManager : MonoBehaviour
 			.colorProp("backgroundColor", mistakeColor)
 			.setIterations(2, GoLoopType.PingPong)
 		);
+	}
+
+	public void PlayIntroAgain()
+	{
+		introCouroutine = IntroAnimation();
+		StartCoroutine(introCouroutine);
 	}
 
 	#endregion
