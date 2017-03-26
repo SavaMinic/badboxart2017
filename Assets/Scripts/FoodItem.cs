@@ -60,7 +60,7 @@ public class FoodItem : MonoBehaviour
 
 	#region Fields
 
-	private Renderer myRenderer;
+	private SpriteRenderer sprite;
 	private int order;
 	private Vector3 lookAtPosition;
 
@@ -79,7 +79,7 @@ public class FoodItem : MonoBehaviour
 
 	void Awake()
 	{
-		myRenderer = GetComponent<Renderer>();
+		sprite = GetComponentInChildren<SpriteRenderer>();
 	}
 
 	void OnDestroy()
@@ -106,8 +106,6 @@ public class FoodItem : MonoBehaviour
 		lookAtPosition = lookAt;
 		Type = foodType;
 
-		// todo: change to sprite
-		myRenderer.material.color = FoodManager.I.GetFoodColor(Type);
 		for(int i = 0; i < foodSprites.Count; i++)
 		{
 			foodSprites[i].Sprite.enabled = foodSprites[i].Type == Type;
@@ -159,9 +157,9 @@ public class FoodItem : MonoBehaviour
 				// TODO: call callback, open mouth and staff
 			})
 		);
-		var endColor = myRenderer.material.color;
+		var endColor = Color.white;
 		endColor.a = 0f;
-		colorAnimation = Go.to(myRenderer.material, moveToEndDuration, new GoTweenConfig()
+		colorAnimation = Go.to(sprite, moveToEndDuration, new GoTweenConfig()
 			.colorProp("color", endColor)
 			.setEaseType(GoEaseType.Linear)
 		);
