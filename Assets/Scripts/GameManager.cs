@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour
 	private Text txtMenuTitle;
 
 	[SerializeField]
-	private Renderer driveInImage;
+	private GameObject driveInObject;
 
 	#endregion
 
@@ -99,12 +99,11 @@ public class GameManager : MonoBehaviour
 	void Start()
 	{
 		txtMenuTitle.text = "←A    D→";
-		menuPanel.SetActive(true);
+		SetMenuActive(true);
 		// just a placeholder
 		FoodMarkers.I.Reset();
-		progressPanel.SetActive(false);
-		driveInImage.enabled = false;
 	}
+
 
 	void OnDestroy()
 	{
@@ -144,13 +143,18 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
+	private void SetMenuActive(bool isActive)
+	{
+		menuPanel.SetActive(isActive);
+		progressPanel.SetActive(!isActive);
+		driveInObject.SetActive(!isActive);
+	}
+
 	#region Public API
 
 	public void StartNewGame()
 	{
-		progressPanel.SetActive(true);
-		menuPanel.SetActive(false);
-		driveInImage.enabled = true;
+		SetMenuActive(false);
 		Progress = 0.75f;
 		Score = 0; txtScore.text = "SCORE: 0";
 		Level = 1; txtLevel.text = "LEVEL 1";
@@ -161,10 +165,8 @@ public class GameManager : MonoBehaviour
 	public void EndGame()
 	{
 		State = GameState.EndGame;
-		txtMenuTitle.text = Level == maxLevel ? "BRAVO FOR LEVEL 5!" : "GAME OVER";
-		menuPanel.SetActive(true);
-		progressPanel.SetActive(false);
-		driveInImage.enabled = false;
+		txtMenuTitle.text = Level == maxLevel ? "BRAVO FOR LEVEL 5!" : "←A        GAME OVER      D→";
+		SetMenuActive(true);
 	}
 
 	public void IncreaseScore()
