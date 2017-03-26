@@ -20,6 +20,9 @@ public class FoodItem : MonoBehaviour
 		Banana,
 		Broccoli,
 		Lemon,
+
+		// default one
+		Nothing = 999,
 	}
 
 	[System.Serializable]

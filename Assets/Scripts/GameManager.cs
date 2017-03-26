@@ -38,6 +38,9 @@ public class GameManager : MonoBehaviour
 	private float decaySpeed = 0.1f;
 
 	[SerializeField]
+	private float decaySpeedFirstLevel = 0.06f;
+
+	[SerializeField]
 	private float increasePerHit = 0.02f;
 
 	[SerializeField]
@@ -138,6 +141,8 @@ public class GameManager : MonoBehaviour
 	public bool IsEndGame { get { return State == GameState.EndGame; } }
 	public bool IsGameActive { get { return State == GameState.Playing || State == GameState.Delayed; } }
 
+	public float DecaySpeed { get { return Level > 1 ? decaySpeed : decaySpeedFirstLevel; } }
+
 	private GoTween backgroundAnimation;
 	private float delayTimeRemaining;
 	private float progress;
@@ -149,7 +154,7 @@ public class GameManager : MonoBehaviour
 
 		// just a placeholder
 		txtMenuTitle.text = "←A    D→";
-		FoodMarkers.I.Reset();
+		FoodMarkerManager.I.ResetMarkers();
 		SetMenuActive(true);
 
 		PlayIntroAgain();
@@ -171,7 +176,7 @@ public class GameManager : MonoBehaviour
 			{
 				EndGame();
 			}
-			else if (Progress >= 1f)
+			else if (Progress >= 0.98f)
 			{
 				LevelUp();
 			}
@@ -179,7 +184,7 @@ public class GameManager : MonoBehaviour
 
 		if (State == GameState.Delayed)
 		{
-			Progress -= decaySpeed / 2f * Time.deltaTime;
+			Progress -= DecaySpeed / 2f * Time.deltaTime;
 			delayTimeRemaining -= Time.deltaTime;
 			if (delayTimeRemaining <= 0f)
 			{
@@ -189,7 +194,7 @@ public class GameManager : MonoBehaviour
 		}
 		else if (State == GameState.Playing)
 		{
-			Progress -= decaySpeed * Time.deltaTime;
+			Progress -= DecaySpeed * Time.deltaTime;
 		}
 	}
 

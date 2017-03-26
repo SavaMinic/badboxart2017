@@ -102,7 +102,7 @@ public class FoodManager : MonoBehaviour
 				AddRandomFood(true);
 				break;
 		}
-		FoodMarkers.I.RefreshFoodMarkers(possibleFoodTypes);
+		FoodMarkerManager.I.RefreshFoodMarkers(possibleFoodTypes);
 	}
 
 	public void StartNewGame()
