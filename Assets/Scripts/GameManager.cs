@@ -36,10 +36,40 @@ public class GameManager : MonoBehaviour
 	[SerializeField]
 	private float mistakeDelayDuration = 0.2f;
 
+	[SerializeField]
+	private Image imgProgress;
+
+	[SerializeField]
+	private float decaySpeed = 0.1f;
+
+	[SerializeField]
+	private float increasePerHit = 0.02f;
+
+	[SerializeField]
+	private float decreasePerMistake = 0.15f;
+
+	[SerializeField]
+	private GameObject menuPanel;
+
+	[SerializeField]
+	private GameObject progressPanel;
+
+	[SerializeField]
+	private Text txtMenuTitle;
+
 	#endregion
 
 	public int Score { get; private set; }
 	public int Level { get; private set; }
+	public float Progress
+	{
+		get { return progress; }
+		set
+		{
+			progress = Mathf.Clamp01(value);
+			imgProgress.fillAmount = Progress;
+		}
+	}
 
 	public enum GameState
 	{
@@ -53,13 +83,20 @@ public class GameManager : MonoBehaviour
 
 	public GameState State { get; private set; }
 	public bool IsPlaying { get { return State == GameState.Playing; } }
+	public bool IsEndGame { get { return State == GameState.EndGame; } }
+	public bool IsGameActive { get { return State == GameState.Playing || State == GameState.Delayed; } }
 
 	private GoTween backgroundAnimation;
 	private float delayTimeRemaining;
+	private float progress;
 
 	void Start()
 	{
-		StartNewGame();
+		txtMenuTitle.text = "←A D→";
+		menuPanel.SetActive(true);
+		// just a placeholder
+		FoodMarkers.I.Reset();
+		progressPanel.SetActive(false);
 	}
 
 	void OnDestroy()
@@ -74,11 +111,24 @@ public class GameManager : MonoBehaviour
 	{
 		if (State == GameState.Delayed)
 		{
+			Progress -= decaySpeed / 2f * Time.deltaTime;
 			delayTimeRemaining -= Time.deltaTime;
 			if (delayTimeRemaining <= 0f)
 			{
 				delayTimeRemaining = 0f;
 				State = GameState.Playing;
+			}
+		}
+		else if (State == GameState.Playing)
+		{
+			Progress -= decaySpeed * Time.deltaTime;
+		}
+
+		if (IsGameActive)
+		{
+			if (Progress <= 0f)
+			{
+				EndGame();
 			}
 		}
 	}
@@ -87,16 +137,28 @@ public class GameManager : MonoBehaviour
 
 	public void StartNewGame()
 	{
+		progressPanel.SetActive(true);
+		menuPanel.SetActive(false);
+		Progress = 0.75f;
 		Score = 0; txtScore.text = "SCORE: 0";
 		Level = 1; txtLevel.text = "LEVEL 1";
 		State = GameState.Playing;
 		FoodManager.I.StartNewGame();
 	}
 
+	public void EndGame()
+	{
+		State = GameState.EndGame;
+		txtMenuTitle.text = Level == maxLevel ? "BRAVO FOR LEVEL 5!" : "GAME OVER";
+		menuPanel.SetActive(true);
+		progressPanel.SetActive(false);
+	}
+
 	public void IncreaseScore()
 	{
 		Score += Level;
 		txtScore.text = "SCORE: " + Score;
+		Progress += increasePerHit;
 	}
 
 	public void LevelUp()
@@ -110,6 +172,7 @@ public class GameManager : MonoBehaviour
 
 	public void SignalMistake()
 	{
+		Progress -= decreasePerMistake;
 		delayTimeRemaining += mistakeDelayDuration;
 		State = GameState.Delayed;
 		if (backgroundAnimation != null)
