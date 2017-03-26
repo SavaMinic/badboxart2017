@@ -60,6 +60,9 @@ public class GameManager : MonoBehaviour
 	[SerializeField]
 	private Text txtMenuTitle;
 
+	[SerializeField]
+	private Renderer driveInImage;
+
 	#endregion
 
 	public int Score { get; private set; }
@@ -100,6 +103,7 @@ public class GameManager : MonoBehaviour
 		// just a placeholder
 		FoodMarkers.I.Reset();
 		progressPanel.SetActive(false);
+		driveInImage.enabled = false;
 	}
 
 	void OnDestroy()
@@ -142,6 +146,7 @@ public class GameManager : MonoBehaviour
 	{
 		progressPanel.SetActive(true);
 		menuPanel.SetActive(false);
+		driveInImage.enabled = true;
 		Progress = 0.75f;
 		Score = 0; txtScore.text = "SCORE: 0";
 		Level = 1; txtLevel.text = "LEVEL 1";
@@ -155,6 +160,7 @@ public class GameManager : MonoBehaviour
 		txtMenuTitle.text = Level == maxLevel ? "BRAVO FOR LEVEL 5!" : "GAME OVER";
 		menuPanel.SetActive(true);
 		progressPanel.SetActive(false);
+		driveInImage.enabled = false;
 	}
 
 	public void IncreaseScore()
