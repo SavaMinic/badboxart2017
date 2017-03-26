@@ -116,6 +116,18 @@ public class GameManager : MonoBehaviour
 
 	void Update()
 	{
+		if (IsGameActive)
+		{
+			if (Progress <= 0f)
+			{
+				EndGame();
+			}
+			else if (Progress >= 1f)
+			{
+				LevelUp();
+			}
+		}
+
 		if (State == GameState.Delayed)
 		{
 			Progress -= decaySpeed / 2f * Time.deltaTime;
@@ -129,14 +141,6 @@ public class GameManager : MonoBehaviour
 		else if (State == GameState.Playing)
 		{
 			Progress -= decaySpeed * Time.deltaTime;
-		}
-
-		if (IsGameActive)
-		{
-			if (Progress <= 0f)
-			{
-				EndGame();
-			}
 		}
 	}
 
@@ -175,6 +179,7 @@ public class GameManager : MonoBehaviour
 		if (Level == maxLevel)
 			return;
 		Level++;
+		Progress = 0.5f;
 		txtLevel.text = "LEVEL " + (Level == maxLevel ? "MAX!" : Level.ToString());
 		FoodManager.I.AddFoodDependingOnLevel();
 	}
