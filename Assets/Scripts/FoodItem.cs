@@ -56,6 +56,7 @@ public class FoodItem : MonoBehaviour
 	private Vector3 endPosition;
 	private GoTween movingAnimation;
 	private GoTween colorAnimation;
+	private GoTween zoomAnimation;
 
 	#endregion
 
@@ -79,6 +80,10 @@ public class FoodItem : MonoBehaviour
 		if (colorAnimation != null)
 		{
 			colorAnimation.destroy();
+		}
+		if (zoomAnimation != null)
+		{
+			zoomAnimation.destroy();
 		}
 	}
 
@@ -143,6 +148,11 @@ public class FoodItem : MonoBehaviour
 		endColor.a = 0f;
 		colorAnimation = Go.to(myRenderer.material, moveToEndDuration, new GoTweenConfig()
 			.colorProp("color", endColor)
+			.setEaseType(GoEaseType.Linear)
+		);
+
+		zoomAnimation = Go.to(transform, moveToEndDuration, new GoTweenConfig()
+			.vector3Prop("localScale", Vector3.zero)
 			.setEaseType(GoEaseType.Linear)
 		);
 	}
