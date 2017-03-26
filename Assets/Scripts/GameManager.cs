@@ -95,7 +95,7 @@ public class GameManager : MonoBehaviour
 
 	void Start()
 	{
-		txtMenuTitle.text = "←A D→";
+		txtMenuTitle.text = "←A    D→";
 		menuPanel.SetActive(true);
 		// just a placeholder
 		FoodMarkers.I.Reset();
