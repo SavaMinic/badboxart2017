@@ -131,6 +131,9 @@ public class FoodManager : MonoBehaviour
 
 	private void Move(Vector3 endPosition, bool requiresHealthyFood)
 	{
+		if (!GameManager.I.IsGameActive)
+			return;
+		
 		var activeFood = activeFoodItems[0];
 		activeFood.MoveToEnd(endPosition);
 		activeFoodItems.RemoveAt(0);

@@ -65,6 +65,9 @@ public class GameManager : MonoBehaviour
 	[SerializeField]
 	private GameObject driveInObject;
 
+	[SerializeField]
+	private GameObject tapsPanel;
+
 	[Header("Level up animation")]
 	[SerializeField]
 	private Text txtLevelUp;
@@ -195,6 +198,7 @@ public class GameManager : MonoBehaviour
 		menuPanel.SetActive(isActive);
 		progressPanel.SetActive(!isActive);
 		driveInObject.SetActive(!isActive);
+		tapsPanel.SetActive(!isActive);
 		if (isActive)
 		{
 			var c = txtLevelUp.color;
