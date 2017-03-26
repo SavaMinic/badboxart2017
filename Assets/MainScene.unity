@@ -165,6 +165,48 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 21854106}
+--- !u!1001 &126153661
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4282202155834338, guid: d18260e41557c481da6b0571b509f773, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4282202155834338, guid: d18260e41557c481da6b0571b509f773, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 8.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4282202155834338, guid: d18260e41557c481da6b0571b509f773, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4282202155834338, guid: d18260e41557c481da6b0571b509f773, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4282202155834338, guid: d18260e41557c481da6b0571b509f773, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4282202155834338, guid: d18260e41557c481da6b0571b509f773, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4282202155834338, guid: d18260e41557c481da6b0571b509f773, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4282202155834338, guid: d18260e41557c481da6b0571b509f773, type: 2}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: d18260e41557c481da6b0571b509f773, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &194792224
 GameObject:
   m_ObjectHideFlags: 0
@@ -337,7 +379,7 @@ MonoBehaviour:
     type: 2}
   startPosition: {x: 0, y: 0, z: -6}
   endPosition: {x: 0, y: 7, z: 7}
-  count: 10
+  count: 8
   lookAtPosition: {x: 0, y: 0, z: -9}
   trashCanPosition: {x: -2.5, y: 0, z: -7.2}
   mouthPosition: {x: 2.5, y: 0, z: -7.2}
