@@ -200,7 +200,7 @@ MonoBehaviour:
   mistakeDelayDuration: 0.5
   mistakeColor: {r: 0.21568628, g: 0.36192036, b: 0.6784314, a: 1}
   imgProgress: {fileID: 1702291572}
-  decaySpeed: 0.15
+  decaySpeed: 0.14
   increasePerHit: 0.05
   decreasePerMistake: 0.11
   menuPanel: {fileID: 1080771123}
