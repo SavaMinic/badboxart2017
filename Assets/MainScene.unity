@@ -235,7 +235,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   foodItemPrefab: {fileID: 1000013958942710, guid: 0411d37b29dca49389a4e66a6cc1f71a,
     type: 2}
-  startPosition: {x: 0, y: 0, z: -6.5}
+  startPosition: {x: 0, y: 0, z: -6}
   endPosition: {x: 0, y: 7, z: 7}
   count: 10
   lookAtPosition: {x: 0, y: 0, z: -9}
@@ -1539,7 +1539,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -318}
+  m_AnchoredPosition: {x: 0, y: -340}
   m_SizeDelta: {x: 508, y: 56}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1577090179

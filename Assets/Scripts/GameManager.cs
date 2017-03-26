@@ -104,6 +104,7 @@ public class GameManager : MonoBehaviour
 
 	void Start()
 	{
+		Application.targetFrameRate = 60;
 		txtMenuTitle.text = "←A    D→";
 		SetMenuActive(true);
 		// just a placeholder
@@ -153,6 +154,12 @@ public class GameManager : MonoBehaviour
 		menuPanel.SetActive(isActive);
 		progressPanel.SetActive(!isActive);
 		driveInObject.SetActive(!isActive);
+		if (isActive)
+		{
+			var c = txtLevelUp.color;
+			c.a = 0f;
+			txtLevelUp.color = c;
+		}
 	}
 
 	#region Public API

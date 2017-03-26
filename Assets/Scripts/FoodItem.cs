@@ -8,9 +8,9 @@ public class FoodItem : MonoBehaviour
 	public enum FoodType
 	{
 		// Fast food
-		Burger = 0,
+		Hotdog = 0,
 		Pizza,
-		Hotdog,
+		Burger,
 		Milkshake,
 		FrenchFries,
 
@@ -22,13 +22,21 @@ public class FoodItem : MonoBehaviour
 		Lemon,
 	}
 
+	[System.Serializable]
+	public class FoodSprite
+	{
+		public FoodType Type;
+		public SpriteRenderer Sprite;
+	}
+
 	public readonly static List<FoodType> FastFood = new List<FoodType>();
 	public readonly static List<FoodType> HealthyFood = new List<FoodType>();
 	static FoodItem()
 	{
 		var list = new List<FoodType>((FoodType[])Enum.GetValues(typeof(FoodType)));
-		FastFood.AddRange(list.GetRange(0, 5));
-		HealthyFood.AddRange(list.GetRange(5, 5));
+		var cnt = list.IndexOf(FoodType.Cucumber);
+		FastFood.AddRange(list.GetRange(0, cnt));
+		HealthyFood.AddRange(list.GetRange(cnt, cnt));
 	}
 
 	#region Editor fields
@@ -44,6 +52,9 @@ public class FoodItem : MonoBehaviour
 
 	[SerializeField]
 	private GoEaseType moveToEndEase;
+
+	[SerializeField]
+	private List<FoodSprite> foodSprites;
 
 	#endregion
 
@@ -97,6 +108,10 @@ public class FoodItem : MonoBehaviour
 
 		// todo: change to sprite
 		myRenderer.material.color = FoodManager.I.GetFoodColor(Type);
+		for(int i = 0; i < foodSprites.Count; i++)
+		{
+			foodSprites[i].Sprite.enabled = foodSprites[i].Type == Type;
+		}
 	}
 
 	public void MoveDown()
