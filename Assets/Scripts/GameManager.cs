@@ -24,12 +24,7 @@ public class GameManager : MonoBehaviour
 
 	#region Editor fields
 
-	[SerializeField]
-	private Text txtScore;
-
-	[SerializeField]
-	private Text txtLevel;
-
+	[Header("Game config")]
 	[SerializeField]
 	private int maxLevel = 4;
 
@@ -40,9 +35,6 @@ public class GameManager : MonoBehaviour
 	private Color mistakeColor = Color.red;
 
 	[SerializeField]
-	private Image imgProgress;
-
-	[SerializeField]
 	private float decaySpeed = 0.1f;
 
 	[SerializeField]
@@ -51,6 +43,13 @@ public class GameManager : MonoBehaviour
 	[SerializeField]
 	private float decreasePerMistake = 0.15f;
 
+	[Header("GUI")]
+	[SerializeField]
+	private Text txtScore;
+
+	[SerializeField]
+	private Text txtLevel;
+
 	[SerializeField]
 	private GameObject menuPanel;
 
@@ -58,16 +57,54 @@ public class GameManager : MonoBehaviour
 	private GameObject progressPanel;
 
 	[SerializeField]
+	private Image imgProgress;
+
+	[SerializeField]
 	private Text txtMenuTitle;
 
 	[SerializeField]
 	private GameObject driveInObject;
 
+	[Header("Level up animation")]
 	[SerializeField]
 	private Text txtLevelUp;
 
 	[SerializeField]
 	private float levelUpMoveInDuration = 0.9f;
+
+	[Header("Intro animation")]
+	[SerializeField]
+	private Image introPanel;
+
+	[SerializeField]
+	private Image imgPoster;
+
+	[SerializeField]
+	private Image imgScreenshot;
+
+	[SerializeField]
+	private Text txtIntroTitle;
+
+	[SerializeField]
+	private Text txtIntroText;
+
+	[SerializeField]
+	private Text txtIntroPressToPlay;
+
+	[SerializeField]
+	private Color pressToPlayColor;
+
+	[SerializeField]
+	private float introDelay;
+
+	[SerializeField]
+	private float introElementdsDelay;
+
+	[SerializeField]
+	private float introFadeInDuration;
+
+	[SerializeField]
+	private float introFadeOutDuration;
 
 	#endregion
 
@@ -101,14 +138,19 @@ public class GameManager : MonoBehaviour
 	private GoTween backgroundAnimation;
 	private float delayTimeRemaining;
 	private float progress;
+	private IEnumerator introCouroutine;
 
 	void Start()
 	{
 		Application.targetFrameRate = 60;
-		txtMenuTitle.text = "←A    D→";
-		SetMenuActive(true);
+
 		// just a placeholder
+		txtMenuTitle.text = "←A    D→";
 		FoodMarkers.I.Reset();
+		SetMenuActive(true);
+
+		introCouroutine = IntroAnimation();
+		StartCoroutine(introCouroutine);
 	}
 
 	void OnDestroy()
@@ -162,7 +204,62 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
+	private IEnumerator IntroAnimation()
+	{
+		State = GameState.Intro;
+
+		yield return new WaitForSeconds(introDelay);
+
+		Go.to(imgPoster, introFadeInDuration, new GoTweenConfig().colorProp("color", Color.white));
+
+		yield return new WaitForSeconds(introElementdsDelay);
+
+		Go.to(txtIntroTitle, introFadeInDuration, new GoTweenConfig().colorProp("color", Color.white));
+		Go.to(txtIntroText, introFadeInDuration, new GoTweenConfig().colorProp("color", Color.white));
+
+		yield return new WaitForSeconds(introElementdsDelay);
+
+		Go.to(imgScreenshot, introFadeInDuration, new GoTweenConfig().colorProp("color", Color.white));
+
+		yield return new WaitForSeconds(introElementdsDelay * 3);
+
+		Go.to(txtIntroPressToPlay, introFadeInDuration / 4f, new GoTweenConfig().colorProp("color", Color.white));
+
+		yield return new WaitForSeconds(introFadeInDuration / 3f);
+
+		Go.to(txtIntroPressToPlay, introFadeInDuration / 4f, new GoTweenConfig()
+			.colorProp("color", pressToPlayColor)
+			.setIterations(-1, GoLoopType.PingPong)
+		);
+	}
+
+	private IEnumerator FinishIntroAnimation()
+	{
+		txtIntroPressToPlay.enabled = false;
+
+		var invisibleColor = Color.white;
+		invisibleColor.a = 0f;
+		Go.to(imgPoster, introFadeOutDuration, new GoTweenConfig().colorProp("color", invisibleColor));
+		Go.to(imgScreenshot, introFadeOutDuration, new GoTweenConfig().colorProp("color", invisibleColor));
+		Go.to(txtIntroTitle, introFadeOutDuration, new GoTweenConfig().colorProp("color", invisibleColor));
+		Go.to(txtIntroText, introFadeOutDuration, new GoTweenConfig().colorProp("color", invisibleColor));
+		var panelColor = Color.black;
+		panelColor.a = 0f;
+		Go.to(introPanel, introFadeOutDuration, new GoTweenConfig().colorProp("color", panelColor));
+
+		yield return new WaitForSeconds(introFadeOutDuration);
+
+		introPanel.gameObject.SetActive(false);
+		State = GameState.Menu;
+	}
+
 	#region Public API
+
+	public void FinishIntro()
+	{
+		StopCoroutine(introCouroutine);
+		StartCoroutine(FinishIntroAnimation());
+	}
 
 	public void StartNewGame()
 	{

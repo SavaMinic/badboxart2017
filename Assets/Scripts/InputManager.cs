@@ -23,5 +23,9 @@ public class InputManager : MonoBehaviour
 				FoodManager.I.MoveToMouth();
 			}
 		}
+		else if (GameManager.I.State == GameManager.GameState.Intro && Input.anyKeyDown)
+		{
+			GameManager.I.FinishIntro();
+		}
 	}
 }
