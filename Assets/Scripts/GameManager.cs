@@ -282,7 +282,14 @@ public class GameManager : MonoBehaviour
 		Go.to(txtLevelUp, levelUpMoveInDuration, new GoTweenConfig()
 			.colorProp("color", fullColor)
 			.setEaseType(GoEaseType.Linear)
-			.setIterations(2, GoLoopType.PingPong)
+		);
+
+		yield return new WaitForSeconds(levelUpMoveInDuration + 0.2f);
+
+		fullColor.a = 0f;
+		Go.to(txtLevelUp, levelUpMoveInDuration - 0.2f, new GoTweenConfig()
+			.colorProp("color", fullColor)
+			.setEaseType(GoEaseType.Linear)
 		);
 	}
 
