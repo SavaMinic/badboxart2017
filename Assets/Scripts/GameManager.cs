@@ -71,12 +71,22 @@ public class GameManager : MonoBehaviour
 	[SerializeField]
 	private GameObject tapsPanel;
 
+	[SerializeField]
+	private Color defaultTextColor;
+
 	[Header("Level up animation")]
 	[SerializeField]
 	private Text txtLevelUp;
 
 	[SerializeField]
 	private float levelUpMoveInDuration = 0.9f;
+
+	[Header("Starting animation")]
+	[SerializeField]
+	private Text txtStartTimer;
+
+	[SerializeField]
+	private float startDuration = 3f;
 
 	[Header("Intro animation")]
 	[SerializeField]
@@ -130,6 +140,7 @@ public class GameManager : MonoBehaviour
 	{
 		Intro = 0,
 		Menu,
+		Starting,
 		Playing,
 		Paused,
 		Delayed,
@@ -147,6 +158,7 @@ public class GameManager : MonoBehaviour
 	private float delayTimeRemaining;
 	private float progress;
 	private IEnumerator introCouroutine;
+	private float timeToStartRemaining;
 
 	void Start()
 	{
@@ -195,6 +207,12 @@ public class GameManager : MonoBehaviour
 		else if (State == GameState.Playing)
 		{
 			Progress -= DecaySpeed * Time.deltaTime;
+		}
+		else if (State == GameState.Starting)
+		{
+			timeToStartRemaining -= Time.deltaTime;
+			int timeInSeconds = (int)timeToStartRemaining;
+			txtStartTimer.text = timeInSeconds >= 1 ? timeInSeconds.ToString() : "GO!";
 		}
 	}
 
@@ -293,6 +311,24 @@ public class GameManager : MonoBehaviour
 		);
 	}
 
+	private IEnumerator StartingGameAnimation()
+	{
+		State = GameState.Starting;
+
+		timeToStartRemaining = startDuration;
+		txtStartTimer.enabled = true;
+		txtStartTimer.rectTransform.localScale = Vector3.one * 0.6f;
+		Go.to(txtStartTimer.rectTransform, .5f, new GoTweenConfig()
+			.vector3Prop("localScale", Vector3.one * 1.2f)
+			.setIterations((int)startDuration + 2, GoLoopType.PingPong)
+		);
+
+		yield return new WaitForSeconds(startDuration - 0.5f);
+
+		txtStartTimer.enabled = false;
+		State = GameState.Playing;
+	}
+
 	#region Public API
 
 	public void FinishIntro()
@@ -306,15 +342,15 @@ public class GameManager : MonoBehaviour
 		SetMenuActive(false);
 		Progress = 0.75f;
 		Score = 0; txtScore.text = "SCORE: 0";
-		Level = 1; txtLevel.text = "LEVEL 1";
-		State = GameState.Playing;
+		Level = 1; txtLevel.text = "LEVEL 1"; txtLevel.color = defaultTextColor;
 		FoodManager.I.StartNewGame();
+		StartCoroutine(StartingGameAnimation());
 	}
 
 	public void EndGame()
 	{
 		State = GameState.EndGame;
-		txtMenuTitle.text = Level == maxLevel ? "BRAVO FOR LEVEL 5!" : "←A        GAME OVER      D→";
+		txtMenuTitle.text = Level == maxLevel ? "ONLY WHEY, BRO!\n<color=red>MAX LEVEL!</color>" : "←A        GAME OVER      D→";
 		SetMenuActive(true);
 	}
 
@@ -332,6 +368,10 @@ public class GameManager : MonoBehaviour
 		Level++;
 		Progress = 0.5f;
 		txtLevel.text = "LEVEL " + (Level == maxLevel ? "MAX!" : Level.ToString());
+		if (Level == maxLevel)
+		{
+			txtLevel.color = Color.red;
+		}
 		FoodManager.I.AddFoodDependingOnLevel();
 
 		// activate level up
